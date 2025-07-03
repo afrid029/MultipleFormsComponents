@@ -1,7 +1,9 @@
 <p-toast [position]="toastPosition"></p-toast>
 
+<div class = "container row row-gap-2 p-3">
+    
 <h4>Credentials Documents</h4>
-<p-button label="Add Cred Docs" (onClick)="OpenCredModel()"></p-button>
+<p-button label="Add Credential Doc" (onClick)="OpenCredModel()"></p-button>
  <p-dataview #dv [value]="credentials()">
     <ng-template #list let-user>
         <div class="bg">
@@ -17,7 +19,7 @@
 
 
 <h4>Degree Documents</h4>
-<p-button label="Add degree Docs" (onClick)="OpenDegModel()"></p-button>
+<p-button label="Add degree Doc" (onClick)="OpenDegModel()"></p-button>
  <p-dataview #dv [value]="degree()">
     <ng-template #list let-user>
         <div class="bg">
@@ -32,7 +34,7 @@
 </p-dataview>
 
 <h4>Employment Documents</h4>
-<p-button label="Add Employment Docs" (onClick)="OpenEmpModel()"></p-button>
+<p-button label="Add Employment Doc" (onClick)="OpenEmpModel()"></p-button>
  <p-dataview #dv [value]="employment()">
     <ng-template #list let-user>
         <div class="bg">
@@ -47,7 +49,7 @@
 </p-dataview>
 
 <h4>Identity Documents</h4>
-<p-button label="Add Employment Docs" (onClick)="OpenPassModel()"></p-button>
+<p-button label="Add Identity Doc" (onClick)="OpenPassModel()"></p-button>
  <p-dataview #dv [value]="passport()">
     <ng-template #list let-user>
         <div class="bg">
@@ -62,7 +64,7 @@
 </p-dataview>
 
 <h4>Goodstanding Documents</h4>
-<p-button label="Add Employment Docs" (onClick)="OpenStandModel()"></p-button>
+<p-button label="Add Goodstand Doc" (onClick)="OpenStandModel()"></p-button>
  <p-dataview #dv [value]="goodStanding()">
     <ng-template #list let-user>
         <div class="bg">
@@ -75,5 +77,6 @@
         </div>
     </ng-template>
 </p-dataview>
+</div>
 
 <router-outlet />
