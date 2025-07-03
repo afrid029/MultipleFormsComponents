@@ -1,0 +1,60 @@
+@import './variable.scss';
+
+@mixin toastCss {
+    .p-toast-message-error {
+        background-color: rgba(254, 230, 229, 0.73) !important;
+        border: transparent !important;
+        border-left: 4px solid rgb(182, 4, 4) !important;
+    }
+    .p-toast-message-success {
+        background-color: rgba(239, 254, 229, 0.73) !important;
+        border: transparent !important;
+        border-left: 4px solid rgb(57, 182, 4) !important;
+    }
+
+    .p-toast-top-center {
+        width: 90% !important;
+    }
+
+    .p-toast-message-error .p-toast-summary {
+        color: rgb(227, 20, 20) !important;
+        font-weight: 500;
+    }
+
+    .p-toast-message-success .p-toast-summary {
+        color: rgb(1, 81, 1) !important;
+        font-weight: 500;
+    }
+
+    .p-toast-message-error .p-toast-message-icon {
+        color: rgb(227, 20, 20) !important;
+        width: 25px !important;
+        height: 25px !important;
+    }
+    .p-toast-message-success .p-toast-message-icon {
+        color: rgb(1, 81, 1) !important;
+        width: 25px !important;
+        height: 25px !important;
+    }
+
+    .p-toast-message-icon .p-component svg {
+        width: 25px !important;
+        height: 25px !important;
+    }
+
+    .p-toast-message-error .p-toast-close-button {
+        color: rgb(227, 20, 20) !important;
+    }
+    .p-toast-message-success .p-toast-close-button {
+        color: rgb(1, 81, 1) !important;
+    }
+
+    .p-toast-message-error .p-toast-detail {
+       color: rgb(255,56,56) !important;
+        font-weight: 400;
+    }
+    .p-toast-message-success .p-toast-detail {
+        color: rgb(15, 96, 3) !important;
+        font-weight: 400;
+    }
+}

@@ -1,0 +1,15 @@
+<ul class="ul-validation-errors" [dir]="direction" *ngIf="errors">
+    <li  class="error-feedback">
+        {{ controllerError }}
+    </li>
+</ul>
+<!-- <ul class="ul-validation-errors" [dir]="direction" *ngIf="errors">
+    <li *ngFor="let error of errors | keyvalue" class="error-feedback">
+        {{ errorMessages()[error.key] }}
+    </li>
+</ul> -->
+<ul class="ul-validation-errors" [dir]="direction" *ngIf="hasCrossErrors() && !errors">
+  <li class="error-feedback">
+    {{ crossError }}
+  </li>
+</ul>

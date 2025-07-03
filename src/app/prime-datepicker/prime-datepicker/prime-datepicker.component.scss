@@ -1,0 +1,7 @@
+@import '../../styles/prime-required-mixin.scss';
+@import '../../styles/prime-calendar-mixin.scss';
+::ng-deep {
+    @include datepickerInput;
+    @include requiredInput;
+}
+

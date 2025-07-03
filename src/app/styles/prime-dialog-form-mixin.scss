@@ -1,0 +1,80 @@
+@import './variable.scss';
+@mixin dialogForm {
+     .p-dialog-mask {
+        background: $color-mask-dialog;
+        box-shadow: $dialog-shadow;
+        backdrop-filter: $backdrop-filter;
+        -webkit-backdrop-filter: $backdrop-filter;
+    }
+
+    .p-dialog{
+        background-color: $color-white !important;
+        width:55%;
+        // width: auto;
+        display: flex;
+        justify-content: center;
+        max-height: 90% !important;
+        border: transparent !important;
+        box-shadow: $dialog-shadow !important;
+    }
+
+    .p-dialog-header {
+        border-bottom: $bottom-black-border;
+        width: auto;
+    }
+
+    .p-dialog-close-button {
+        border-radius: 100% !important;
+    }
+
+    .p-dialog-content {
+        padding: $padding-form !important;
+        display: flex;
+        width: auto;
+        justify-content: center;
+    }
+
+    .p-dialog-content::-webkit-scrollbar {
+        display: none;
+    }
+
+    .p-dialog-title {
+        color : $color-dialog-label;
+    }
+    label {
+        color: $color-inputlabel;
+    }
+    input {
+        color: $color-inputtext;
+    }
+
+    input, p-select, p-togglebutton {
+        background-color: $color-white !important;
+    }
+
+    .btn-grp {
+        width: $width-full;
+    }
+
+    @media(max-width : 1400px ) {
+        .p-dialog {
+            width: 70%;
+        }
+    }
+    @media(max-width : 1200px ) {
+        .p-dialog {
+            width: 80%;
+        }
+    }
+
+    @media(max-width : 900px) {
+        .p-dialog {
+            width: 90%;
+            max-height: 90%;
+        }
+
+        .p-dialog-content {
+            padding: 0.8rem 0.5rem 0.5rem 0.5rem !important;
+        }
+    }
+}

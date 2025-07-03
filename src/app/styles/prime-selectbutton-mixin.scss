@@ -1,0 +1,24 @@
+@import './variable.scss';
+
+@mixin selectButton {
+
+    .p-selectbutton {
+        outline: transparent !important;
+    }
+    .p-selectbutton .p-togglebutton {
+        border: $input-border !important;
+    }
+    .p-togglebutton.p-togglebutton-checked {
+        background-color: $color-primary !important;
+    }
+
+    .p-togglebutton.p-togglebutton-checked .p-togglebutton-content {
+        color: $color-white !important;
+    }
+
+    .p-togglebutton-content {
+        background-color: transparent !important;
+    }
+
+
+}

@@ -1,0 +1,7 @@
+@import '../styles/prime-required-mixin.scss';
+@import '../styles/prime-inputfilter-mixin.scss';
+::ng-deep {
+   @include requiredInput;
+   @include inputFilter;
+}
+

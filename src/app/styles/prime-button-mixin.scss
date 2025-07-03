@@ -1,0 +1,10 @@
+@import './variable.scss';
+@mixin button {
+ 
+    .submit .p-button {
+        width: $width-full !important;
+        background-color: $color-primary !important;
+        border: transparent !important;
+        color: $color-white !important;
+    }
+}

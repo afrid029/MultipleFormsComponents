@@ -1,0 +1,18 @@
+@import './variable.scss';
+
+@mixin error {
+    .error-feedback {
+        width: $width-full;
+        font-size: $fontSize-error;
+        color: $color-error;
+        text-decoration: none;
+        list-style: none;
+        margin-top: 2px;
+        text-shadow: $text-shadow-error-text;
+    }
+
+    .ul-validation-errors {
+        margin: 0px;
+        padding: 0px;
+    }
+}

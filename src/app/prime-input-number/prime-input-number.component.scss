@@ -1,0 +1,7 @@
+@import '../styles/prime-inputtext-mixin.scss';
+@import '../styles/prime-required-mixin.scss';
+
+::ng-deep {
+    @include prime-inputtext;
+    @include requiredInput;
+}

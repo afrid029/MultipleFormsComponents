@@ -1,0 +1,10 @@
+@import './variable.scss';
+
+@mixin p-select-focus {
+
+    .p-select:enabled:focus {
+        box-shadow: $box-shadow !important;
+        border: $border-onfocus !important;
+    }
+
+}

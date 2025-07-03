@@ -1,0 +1,14 @@
+@import './variable.scss';
+@mixin requiredInput {
+
+    .required.p-inputtext,
+    .required.p-select,
+    .required .p-inputtext,
+    .required .p-datepicker-input {
+        border: $border-required !important;
+        border-width: $border-width-required !important;
+    }
+
+
+
+}

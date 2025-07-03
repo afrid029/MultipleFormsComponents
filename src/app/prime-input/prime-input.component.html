@@ -1,0 +1,26 @@
+<div *ngIf="control">
+    <span [class]="label && label !== '' ? 'flex gap-1' : 'flex gap-1 justify-content-end'">
+        <label dir="auto" class="block text-sm/6 font-medium text-gray-900 text-secondary-emphasis mb-1" [htmlFor]="label">{{ label }}</label>
+        @if (isCurrentControlRequiredOnDefault() && showRequiredIcon) {
+        <span class="text-right" [style]="{ color: 'red' }"> *</span>
+        }
+
+    </span>
+
+
+    <input [readOnly]="isReadOnly" [formControl]="control" pAutoFocus [autofocus]="autoFocus" [id]="uniqueId"
+        [type]="type" [placeholder]="placeholder" [class]="isError() ? 'p-inputtext-sm required' : 'p-inputtext-sm'"
+        aria-describedby="label" class="w-full" [ngClass]="{ 'ng-invalid ng-dirty': isError() }" pInputText />
+
+
+
+    <small id="sm-text-{{ label }}" *ngIf="hasSmallText">{{ smallText }}</small>
+
+    @if(isError()) {
+
+        <ng-container>
+            <app-prime-error [direction]="direction" [crossErrorMessages]="crossErrorMessages" [errors]="control.errors">
+            </app-prime-error>
+        </ng-container>
+    }
+</div>

@@ -1,0 +1,43 @@
+
+<!-- <p-dialog header="Degree Document" [modal]="true" [(visible)]="visible" (onHide)="onHide()"
+    [style]="{ width: '55rem' }">
+    <p-toast position="top-center"></p-toast> -->
+
+    <app-data-loader [dataLoaded]="dataLoaded()"></app-data-loader>
+
+    @if(dataLoaded()) {
+
+        <form class="container position-relative pb-4" [formGroup]="dynamicForm!" (ngSubmit)="onSubmit()">
+    
+            <div class="row row-cols-2 row-gap-2">
+                <app-prime-input  class="col-12 col-md-6" label="Name as per Degree" placeholder="Name as per Degree" [isDisabled]=false
+                    formControlName="name"></app-prime-input>
+                <app-prime-input  class="col-12 col-md-6" label="Document Title" placeholder="Document Title" [isDisabled]=false
+                    formControlName="title"></app-prime-input>
+                <app-prime-filter-dropdown class="col-12 col-md-6" label="Country" placeHolder="Select country" [optionItems]="countries"
+                    optionLabel="name" optionValue="name" formControlName="country"></app-prime-filter-dropdown>
+                <app-prime-input  class="col-12 col-md-6" label="Institute Name" placeholder="Institute Name" [isDisabled]=false
+                    formControlName="institution"></app-prime-input>
+                <app-prime-dropdown class="col-12 col-md-6" label="Degree Type" placeHolder="Select Degree type" [optionItems]="degreeType()" optionValue="type" optionLabel="type" optionValue="type"
+                    formControlName="degreetype"></app-prime-dropdown>
+                <app-prime-dropdown class="col-12 col-md-6" label="Mode of Study" placeHolder="Select mode of study" [optionItems]="studyMode()" optionLabel="type" optionValue="type"
+                    formControlName="studymode"></app-prime-dropdown>
+                <app-prime-dropdown class="col-12 col-md-6" label="Have you completed your degree?" placeHolder="Choose one" [optionItems]="completionOptions()" optionLabel="label" optionValue="value"
+                    formControlName="completion"></app-prime-dropdown>
+                <app-prime-datepicker class="col-12 col-md-6" [customErrors]="customErrors['startdate']" label="Start Date" placeholder="Start Date"
+                    formControlName="startdate"></app-prime-datepicker>
+
+                @if(this.dynamicForm?.get('completion')?.value == 'yes') {
+                    <app-prime-datepicker class="col-12 col-md-6" label="End Date" placeholder="End Date"
+                        formControlName="enddate" [customErrors]="customErrors['enddate']"></app-prime-datepicker>
+                    <app-prime-datepicker class="col-12 col-md-6" label="Date of Awarded" placeholder="Date of Award" [customErrors]="customErrors['awardeddate'] "
+                        formControlName="awardeddate"></app-prime-datepicker>
+                }
+            </div>
+            <div class="row mt-4">
+                 <app-button class="col-12" [disabled]="disable()" [loading]="loading()" label="Confirm" iconPos="left" type="submit" severity="warn" size="small" [fullWidth]=true></app-button>
+            </div>
+        </form>
+    }
+<!-- 
+</p-dialog> -->

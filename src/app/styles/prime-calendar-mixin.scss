@@ -1,0 +1,86 @@
+@import './variable.scss';
+@mixin datepickerInput {
+    .p-calendar {
+        width: 100%;
+        height: 4.5vh;
+        font-size: 14px;
+    }
+
+    .p-button {
+        height: 4.5vh;
+        font-size: 14px;
+    }
+
+    .p-inputtext-sm {
+        padding: 0 !important;
+        margin-top: 0px !important;
+        width: 100% !important;
+    }
+
+    .p-datepicker-dropdown {
+        background-color: $color-primary !important;
+    }
+
+    .p-inputtext:disabled ~ .p-datepicker-dropdown {
+        background-color: $color-dropdown-onDisabled !important;
+    }
+
+    .p-datepicker-panel {
+        background-color: $color-white !important;
+        box-shadow: $dialog-shadow !important;
+        backdrop-filter: $backdrop-filter;
+        -webkit-backdrop-filter: $backdrop-filter;
+        border: transparent !important;
+    }
+
+    .p-datepicker-header {
+        background-color: transparent !important;
+    }
+
+    .p-datepicker-select-month,
+    .p-datepicker-select-year {
+        color: $color-black !important;
+    }
+
+    .p-datepicker-next-button,
+    .p-datepicker-prev-button {
+        color: $color-primary !important;
+    }
+
+    .p-button-text:hover {
+        background-color: $color-calendar-buttonOnHover!important;
+    }
+
+    .p-datepicker-weekday {
+        color: $color-calendar-weekday !important;
+    }
+
+    .p-datepicker-weekday-cell {
+        text-align: center;
+    }
+
+    .p-datepicker-day,
+    .p-datepicker-month,
+    .p-datepicker-year,
+    .p-datepicker-decade {
+        color: $color-calendar-date !important;
+    }
+
+
+
+    .p-datepicker-today .p-datepicker-day,
+    .p-datepicker-day-selected, 
+    .p-datepicker-month-selected, 
+    .p-datepicker-year-selected {
+        background-color: $color-primary !important;
+        color: $color-white !important;
+    }
+
+     .p-datepicker-day:hover,
+    .p-datepicker-select-month:hover,
+    .p-datepicker-select-year:hover,
+    .p-datepicker-month:hover,
+    .p-datepicker-year:hover {
+        background-color: $color-calendar-buttonOnHover!important;
+    }
+}

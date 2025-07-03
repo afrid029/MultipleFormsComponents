@@ -1,0 +1,9 @@
+@import '../../styles/prime-button-mixin.scss';
+
+:host {
+    display: inline-block;
+}
+
+::ng-deep {
+   @include button;
+}

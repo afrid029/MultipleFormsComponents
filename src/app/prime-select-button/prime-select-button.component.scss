@@ -1,0 +1,4 @@
+@import "../styles/prime-selectbutton-mixin.scss";
+::ng-deep {
+    @include selectButton;
+}

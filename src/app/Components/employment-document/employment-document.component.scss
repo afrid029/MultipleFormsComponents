@@ -1,0 +1,5 @@
+@import '../../styles/prime-dialog-form-mixin.scss';
+::ng-deep {
+   @include dialogForm();
+    
+}

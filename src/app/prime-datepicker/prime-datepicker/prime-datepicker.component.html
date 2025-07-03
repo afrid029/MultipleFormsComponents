@@ -1,0 +1,27 @@
+<div style="display: flex; flex-direction: column;" *ngIf="control">
+    <span class="flex gap-1">
+        <label [dir]="direction" class="block text-sm/6 font-medium text-gray-900 mb-1" [htmlFor]="label">{{ label }}
+            @if(isCurrentControlRequiredOnDefault()){
+            <span class="text-right" [style]="{ color: 'red' }"> *</span>
+            }
+        </label>
+    </span>
+
+
+    <p-date-picker [ngClass]="{ 'ng-invalid ng-dirty': isError() }" [formControl]="control" [dir]="direction"
+        [id]="label" [dateFormat]="dateFormat" [showIcon]="showIcon" [readonlyInput]="isEditable" [minDate]="minDate"
+        [maxDate]="maxDate" [disabledDates]="disabledDates"
+        [class]="isError() ? 'p-inputtext-sm required' : 'p-inputtext-sm'" appendTo="body" [style]="{ width: '100%' }"
+        [showButtonBar]="showButtonBar"></p-date-picker>
+
+
+    <small id="sm-text-{{ label }}" *ngIf="hasSmallText">{{ smallText }}</small>
+
+    @if(isError()){
+
+        <ng-container >
+            <app-prime-error [direction]="direction" [crossErrorMessages]="crossErrorMessages" [errors]="control.errors">
+            </app-prime-error>
+        </ng-container>
+    }
+</div>

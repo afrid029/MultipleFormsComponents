@@ -1,0 +1,59 @@
+@import './variable.scss';
+
+@mixin inputFilter {
+
+    .p-select {
+        width: $width-full !important;
+        border: $input-border !important;
+        // height: $height-input !important;
+        // min-height: 2rem;
+       
+    }
+
+    .p-select-overlay {
+        border: transparent !important;
+        box-shadow: $dialog-shadow !important;
+    }
+
+    .p-select-header {
+        background-color: $color-white !important;
+    }
+
+    .p-select-label {
+        color: $color-inputlabel !important;
+        font-size: $fontSize-input !important;
+         padding-block: 0.3rem !important;
+
+    }
+
+    .p-select-list {
+        background-color: $color-white !important;
+
+    }
+
+    .p-select-list-container::-webkit-scrollbar {
+        display: none;
+    }
+
+    .p-select-option {
+        color: $color-black !important;
+    }
+
+    .p-select-option.p-select-option-selected {
+        background-color: $color-bg-selected !important;
+        color: $color-text-selected !important;
+    }
+
+    .p-select-option:not(.p-select-option-selected):not(.p-disabled).p-focus {
+        background-color: $color-bg-selectOnFocus !important;
+        ;
+        color: $color-text-selectOnFocus !important;
+    }
+
+    .p-select.p-select-open {
+        box-shadow: $box-shadow !important;
+        border: $border-onfocus !important;
+    }
+
+
+}

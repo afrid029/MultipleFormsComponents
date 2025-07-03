@@ -1,0 +1,42 @@
+@import "./variable.scss";
+
+@mixin p-inputtext {
+    .p-inputtext {
+        width: $width-full;
+        // height: $height-input;
+        // min-height: 2rem;
+        font-size: $fontSize-input;
+        color: $color-inputtext !important;
+        border: $input-border !important;
+        padding-block: 0.3rem !important;
+    }
+}
+
+@mixin p-inputtext-focus {
+    .p-inputtext:enabled:focus {
+        box-shadow: $box-shadow !important;
+        border: $border-onfocus !important;
+    }
+}
+
+@mixin p-inputtext-placeholder {
+    .p-inputtext::placeholder {
+        color: $color-placeholder !important;
+        font-size: $fontSize-input;
+    }
+}
+
+@mixin p-input-disabled {
+    .p-inputtext:disabled {
+        background-color: $color-bg-onDisabled !important
+    }
+}
+
+
+@mixin prime-inputtext {
+    @include p-inputtext();
+    @include p-inputtext-focus();
+    @include p-inputtext-placeholder();
+    @include p-input-disabled();
+
+}
