@@ -30,7 +30,7 @@
                 <app-prime-datepicker class="col-12 col-md-6" [minDate]="minDate()" [customErrors]="customErrors()['expiry']" label="Passport Expiry Date" placeholder="Expiry Date"
                     formControlName="expiry"></app-prime-datepicker>
             </div>
-            <app-prime-select-button class="row mt-4" [allowEmpty]="false" formControlName="agree"
+            <app-prime-select-button class="row mt-4 select-button" [allowEmpty]="false" formControlName="agree"
                 label="Would you like us to proceed with the criminal background check for this passport application ?"
                 [stateOptions]="slideOptions()" [allowEmpty]=false></app-prime-select-button>
     

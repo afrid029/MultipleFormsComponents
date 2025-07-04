@@ -25,7 +25,7 @@
                 [isDisabled]=false formControlName="email"></app-prime-input>
             <app-prime-input-number class="col-12 col-md-6" label="Supervisor Phone" placeholder="(999) 999-999999999"
                 [isDisabled]=false formControlName="phone"></app-prime-input-number>
-            <app-prime-select-button class="col-12 col-md-6" [allowEmpty]="false" formControlName="iscurrent"
+            <app-prime-select-button class="col-12 col-md-6 select-button" [allowEmpty]="false" formControlName="iscurrent"
                 label="Is this your current employer ?" size="small" [stateOptions]="slideOptions()" 
                 [allowEmpty]=false></app-prime-select-button>
             @if(dynamicForm?.get('iscurrent')?.value == 'yes'){
