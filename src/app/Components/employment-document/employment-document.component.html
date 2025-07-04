@@ -10,15 +10,15 @@
                 [isDisabled]=false formControlName="name"></app-prime-input>
             <app-prime-input class="col-12 col-md-6" label="Position" placeholder="Position" [isDisabled]=false
                 formControlName="position"></app-prime-input>
-            <app-prime-filter-dropdown class="col-12 col-md-6" label="Country" placeHolder="Select country"
+            <app-prime-filter-dropdown class="col-12 col-md-6" label="Country" placeHolder="Select Country"
                 [optionItems]="countries" optionLabel="name" optionValue="name" formControlName="country"></app-prime-filter-dropdown>
-            <app-prime-dropdown class="col-12 col-md-6" label="Employment Type" placeHolder="Select a type"
+            <app-prime-dropdown class="col-12 col-md-6" label="Employment Type" placeHolder="Select a Type"
                 [optionItems]="employmentType()" optionLabel="type" optionValue="type"
                 formControlName="employmenttype"></app-prime-dropdown>
             <app-prime-datepicker class="col-12 col-md-6" label="Start Date" placeholder="Start Date"
-                formControlName="startdate" [customErrors]="customErrors['startdate']"></app-prime-datepicker>
+                formControlName="startdate" [customErrors]="customErrors()['startdate']"></app-prime-datepicker>
             <app-prime-datepicker class="col-12 col-md-6" label="End Date" placeholder="End Date"
-                formControlName="enddate" [customErrors]="customErrors['enddate']"></app-prime-datepicker>
+                formControlName="enddate" [customErrors]="customErrors()['enddate']"></app-prime-datepicker>
             <app-prime-input class="col-12 col-md-6" label="Supervisor Name" placeholder="Supervisor Name"
                 [isDisabled]=false formControlName="supervisor"></app-prime-input>
             <app-prime-input class="col-12 col-md-6" label="Supervisor Email" placeholder="Supervisor Email"
@@ -29,7 +29,7 @@
                 label="Is this your current employer ?" size="small" [stateOptions]="slideOptions()" 
                 [allowEmpty]=false></app-prime-select-button>
             @if(dynamicForm?.get('iscurrent')?.value == 'yes'){
-                <app-prime-dropdown class="col-12 col-md-6" label="Contact Current Employer" placeHolder="Choose an option"
+                <app-prime-dropdown class="col-12 col-md-6" label="Contact Current Employer" placeHolder="Choose an Option"
                     [optionItems]="stateOptions()" optionLabel="label" optionValue="value"
                     formControlName="contactcurrent"></app-prime-dropdown>
             }

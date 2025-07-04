@@ -1,5 +1,8 @@
 @import './variable.scss';
 @mixin dialogForm {
+    *{
+        font-family: "Inter var", sans-serif
+    }
      .p-dialog-mask {
         background: $color-mask-dialog;
         box-shadow: $dialog-shadow;
@@ -9,7 +12,7 @@
 
     .p-dialog{
         background-color: $color-white !important;
-        width:55%;
+        width:60%;
         // width: auto;
         display: flex;
         justify-content: center;
@@ -20,7 +23,9 @@
 
     .p-dialog-header {
         border-bottom: $bottom-black-border;
+        padding-bottom: 0.25rem;
         width: auto;
+        
     }
 
     .p-dialog-close-button {
@@ -39,13 +44,18 @@
     }
 
     .p-dialog-title {
-        color : $color-dialog-label;
+        color : $color-dialog-header;
+        font-size: 1.1rem !important;
+       
     }
     label {
         color: $color-inputlabel;
+        font-size: $fontSize-input;
+        opacity: 0.8 !important;
     }
     input {
         color: $color-inputtext;
+        opacity: 0.8;
     }
 
     input, p-select, p-togglebutton {

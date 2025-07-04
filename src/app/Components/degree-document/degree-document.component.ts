@@ -2,25 +2,20 @@ import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   Component,
-  EventEmitter,
   inject,
-  Input,
   OnDestroy,
   OnInit,
-  Output,
   signal,
 } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import {
-  DialogService,
   DynamicDialogConfig,
   DynamicDialogRef,
 } from 'primeng/dynamicdialog';
 import { PrimeInputComponent } from '../../prime-input/prime-input.component';
 import {
   FormBuilder,
-  FormControl,
   FormGroup,
   ReactiveFormsModule,
   ValidatorFn,
@@ -31,7 +26,6 @@ import { PrimeDropdownComponent } from '../../prime-dropdown/prime-dropdown.comp
 import { PrimeDatepickerComponent } from '../../prime-datepicker/prime-datepicker/prime-datepicker.component';
 import { ButtonComponent } from '../../prime-button/button/button.component';
 import { DataLoaderComponent } from '../../data-loader/data-loader.component';
-import { ToastModule } from 'primeng/toast';
 import { ToastService } from '../../Services/toast.service';
 import { DateComparer } from '../../Validators/DateComparer.validator';
 import { FormControlDateComparer } from '../../Validators/FormControlDateComparer.validator';
@@ -50,7 +44,6 @@ import { GetDataService } from '../../Services/get-data.service';
     PrimeDatepickerComponent,
     ButtonComponent,
     DataLoaderComponent,
-    ToastModule,
   ],
   templateUrl: './degree-document.component.html',
   styleUrl: './degree-document.component.scss'
@@ -60,19 +53,15 @@ dynamicForm: FormGroup | undefined;
   disable = signal<boolean>(false);
   loading = signal<boolean>(false);
   dataLoaded = signal<boolean>(true);
-  customErrors: Record<string, string[]> = {};
-  customValidators : ValidatorFn[] = [];
-  today: Date = new Date();
-
+  customErrors= signal<Record<string, string[]>>({});
+  customValidators  = signal <ValidatorFn[]>([]);
+  today = signal <Date>(new Date());
   degreeType = signal<Record<string, string>[]>([]);
-
   studyMode = signal<Record<string, string>[]>([]);
   countries = signal<Record<string, string>[]>([])
-
   completionOptions = signal<Record<string, string>[]>([]);
   minDate = signal<Date | undefined>(undefined);
-
-  editData: any = {};
+  editData = signal<any>({});
 
   private _fb: FormBuilder = inject(FormBuilder);
   private _toastServ: ToastService = inject(ToastService);
@@ -88,9 +77,9 @@ dynamicForm: FormGroup | undefined;
     
     this.minDate.set(
       new Date(
-        this.today.getFullYear() - 10,
-        this.today.getMonth(),
-        this.today.getDate()
+        this.today().getFullYear() - 10,
+        this.today().getMonth(),
+        this.today().getDate()
       )
     );
 
@@ -107,46 +96,44 @@ dynamicForm: FormGroup | undefined;
         startdate: ['',
           [
             Validators.required,
-            DateComparer(  this.today,  'lte',  'Start date cannot be greater than today.'),
+            DateComparer(  this.today(),  'lte',  'Start date cannot be greater than today.'),
             DateComparer(  dob,  'gt',  'Start Date should be greater than date of birth.')
           ],
         ],
         enddate: [ '',
           [
             Validators.required,
-            DateComparer(  this.today,  'lte',  'End date cannot be greater than today.'),
+            DateComparer(  this.today(),  'lte',  'End date cannot be greater than today.'),
           ],
         ],
         awardeddate: ['',
           [
             Validators.required,
-            DateComparer(  this.today,  'lte',  'Date of awarded cannot be greater than today.'),
+            DateComparer(  this.today(),  'lte',  'Date of awarded cannot be greater than today.'),
           ],
         ],
       });
-    this.customValidators = [
+    this.customValidators.set([
       FormControlDateComparer('startdate','enddate','neq','Start date cannot be equal to end date.' ),
       FormControlDateComparer('startdate','enddate','lt','Start date cannot be greater than end date.' ),
       FormControlDateComparer('enddate','startdate','gt','End date cannot be less than start date.'),
       FormControlDateDifference('enddate','startdate',1,'day','gte','The gap between end date and start Date should be minimum 1 day.'),
       FormControlDateComparer('enddate','awardeddate','lte','End date cannot be greater than date of awarded'),
       FormControlDateComparer('awardeddate','enddate','gte','Date of awarded cannot be less than end date'),
-    ]
+    ]);
 
-    this.dynamicForm.setValidators(this.customValidators);
+    this.dynamicForm.setValidators(this.customValidators());
     this.loadCustomValidators();
-
-    // this.getAllCountry();
   }
 
   loadCustomValidators() {
-    this.customErrors['startdate'] = ['FormControlDateComparerNeq','FormControlDateComparerLt'];
-    this.customErrors['enddate'] = [
+    this.customErrors()['startdate'] = ['FormControlDateComparerNeq','FormControlDateComparerLt'];
+    this.customErrors()['enddate'] = [
       'FormControlDateDifferenceGte',
       'FormControlDateComparerGt',
       'FormControlDateComparerLte',
     ];
-    this.customErrors['awardeddate'] = ['FormControlDateComparerGte'];
+    this.customErrors()['awardeddate'] = ['FormControlDateComparerGte'];
 
     if (this.dynamicForm) {
        this.dynamicForm.get('awardeddate')?.valueChanges.subscribe((data) => {
@@ -156,11 +143,7 @@ dynamicForm: FormGroup | undefined;
           endDate?.setValue(data);
         }
       });
-
-
-
       this.dynamicForm.get('completion')?.valueChanges.subscribe((data) => {
-        // console.log(data);
         
         if (data == 'no') {
           this.dynamicForm?.get('enddate')?.clearValidators();
@@ -174,13 +157,13 @@ dynamicForm: FormGroup | undefined;
           const filterdValidators = this.filterCustomValidators([4,5])
           this.dynamicForm?.setValidators(filterdValidators);
   
-          this.dynamicForm?.hasValidator(FormControlDateComparer(  'awardeddate',  'enddate',  'gte',  'Date of award cannot be less than End date')
-          )? this.dynamicForm.removeValidators(    FormControlDateComparer(      'awardeddate',      'enddate',      'gte',      'Date of award cannot be less than End date'    )  ): '';
+          this.dynamicForm?.hasValidator(FormControlDateComparer('awardeddate', 'enddate','gte', 'Date of award cannot be less than End date')
+          )? this.dynamicForm.removeValidators( FormControlDateComparer( 'awardeddate', 'enddate', 'gte', 'Date of award cannot be less than End date')): '';
         } else {
-          this.dynamicForm?.get('enddate')?.addValidators([  Validators.required,  DateComparer(    this.today,    'lte',    'End date cannot be greater than today.'  ),]);
-          this.dynamicForm?.get('awardeddate')?.addValidators([  Validators.required,  DateComparer(    this.today,    'lte',    'Date of award cannot be greater than today.'  ),]);
+          this.dynamicForm?.get('enddate')?.addValidators([ Validators.required,  DateComparer(this.today(), 'lte', 'End date cannot be greater than today.'),]);
+          this.dynamicForm?.get('awardeddate')?.addValidators([ Validators.required,  DateComparer(this.today(), 'lte', 'Date of award cannot be greater than today.'),]);
 
-          this.dynamicForm?.setValidators(this.customValidators);
+          this.dynamicForm?.setValidators(this.customValidators());
           this.dynamicForm?.get('awardeddate')?.setValue(null);
           this.dynamicForm?.get('enddate')?.setValue(null);
         }
@@ -189,20 +172,17 @@ dynamicForm: FormGroup | undefined;
   }
 
    filterCustomValidators(indexes: number[]): ValidatorFn[] {
-    return this.customValidators.filter(
+    return this.customValidators().filter(
       (item, index) => !indexes.includes(index)
     );
   }
 
   ngAfterViewInit(): void {
-    // console.log(this.editData);
-    this.editData = this._config?.data;
-    if (this.editData && this.editData.Id) {
+    this.editData.set(this._config.data);
+    if (this.editData() && this.editData().Id) {
       this.dataLoaded.set(false);
       setTimeout(() => {
-        this.dynamicForm?.patchValue(this.editData);
-        // console.log(this.dynamicForm?.get('completion')?.value);
-        
+        this.dynamicForm?.patchValue(this.editData());
         this.loadCustomValidators();
         this.dynamicForm?.markAllAsTouched();
         this.dynamicForm?.updateValueAndValidity();
@@ -211,22 +191,17 @@ dynamicForm: FormGroup | undefined;
     }
   }
   ngOnDestroy(): void {
-    this.editData = {};
+    this.editData.set({});
   }
 
   onSubmit() {
     this.loading.set(true);
     this.dynamicForm?.markAllAsTouched();
-    // console.log(this.dynamicForm?.value);
-
     if (this.dynamicForm?.invalid) {
-      console.log(this.dynamicForm);
-      
       this._toastServ.showToastError(
         'Invalid',
         'There are validation issues in your submission. Please review the form and try again.'
       );
-
       this.loading.set(false);
     } else {
       this._ref.close(this.dynamicForm?.value);

@@ -15,7 +15,6 @@ export function FormControlDateComparer(firstController : string, secondControll
                     parseInt(formatedDate[1]) - 1,
                     parseInt(formatedDate[0])
                 );
-
             }
             if(typeof(secondDate) == 'string') {
                 const formatedDate = secondDate.split('-');
@@ -24,20 +23,15 @@ export function FormControlDateComparer(firstController : string, secondControll
                     parseInt(formatedDate[1]) - 1,
                     parseInt(formatedDate[0])
                 );
-
             }
-
             inputFirstDate.setHours(0,0,0,0);
             inputSecondDate.setHours(0,0,0,0);
-
             const diffInMs = inputFirstDate.getTime() - inputSecondDate.getTime();
-
             switch(operator) {
                 case('gt') : 
                     if(diffInMs <= 0) {
                         return ({
-                            // FormControlDateValidator : `${firstLabel} should be greater than ${secondLabel}`
-                            FormControlDateComparerGt : message
+                           FormControlDateComparerGt : message
                         })
                     } ; break;
                 case('gte') : 

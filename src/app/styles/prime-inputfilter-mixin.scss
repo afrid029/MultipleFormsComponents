@@ -22,7 +22,8 @@
     .p-select-label {
         color: $color-inputlabel !important;
         font-size: $fontSize-input !important;
-         padding-block: 0.3rem !important;
+        opacity: 0.8;
+        //  padding-block: 0.3rem !important;
 
     }
 
@@ -37,6 +38,8 @@
 
     .p-select-option {
         color: $color-black !important;
+        font-size: $fontSize-input !important;
+        opacity: 0.8;
     }
 
     .p-select-option.p-select-option-selected {

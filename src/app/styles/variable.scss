@@ -6,6 +6,7 @@ $color-onfocus : rgb(150 189 241);
 $color-inputtext : rgba(0, 0, 0, 0.6);
 $color-inputlabel : rgb(57, 57, 57);
 $color-dialog-label : rgb(40, 40, 40);
+$color-dialog-header : rgba(72, 72, 72, 0.935);
 $color-inputtext-border : rgba(179, 179, 179, 0.419);
 $color-inputtext-shadow : rgb(31 112 217 / 32%);
 $color-requiredInput : rgba(255, 0, 0, 0.37);
@@ -28,7 +29,7 @@ $border-onfocus : 1px solid $color-onfocus;
 $border-required :solid $color-requiredInput;
 $border-width-required : 1px 1px 1px 4px;
 
-$fontSize-input : 1rem;
+$fontSize-input : 0.9rem;
 $fontSize-error : 0.8em;
 $height-input : 5vh;
 

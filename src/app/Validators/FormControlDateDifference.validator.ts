@@ -15,7 +15,6 @@ export function FormControlDateDifference(
         if(firstDate && secondDate) {
             let inputFirstDate = firstDate;
             let inputSecondDate = secondDate;
-
              if(typeof(firstDate) == 'string') {
                 const formatedDate = firstDate.split('-');
                 inputFirstDate = new Date (
@@ -23,7 +22,6 @@ export function FormControlDateDifference(
                     parseInt(formatedDate[1]) - 1,
                     parseInt(formatedDate[0])
                 );
-
             }
             if(typeof(secondDate) == 'string') {
                 const formatedDate = secondDate.split('-');
@@ -32,14 +30,10 @@ export function FormControlDateDifference(
                     parseInt(formatedDate[1]) - 1,
                     parseInt(formatedDate[0])
                 );
-
             }
-
             inputFirstDate.setHours(0,0,0,0);
             inputSecondDate.setHours(0,0,0,0);
-
             const diffInMs = inputFirstDate.getTime() - inputSecondDate.getTime();
-            
             switch(type) {
                 case('year') : 
                     const diffInYrs = diffInMs / (1000 * 60 * 60 * 24 * 365.25);

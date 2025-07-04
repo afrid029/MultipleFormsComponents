@@ -21,13 +21,13 @@
                     formControlName="middlename"></app-prime-input>
                 <app-prime-dropdown class="col-12 col-md-6" label="Gender" placeHolder="Select Gender" [optionItems]="gender()" optionLabel="type" optionValue="type"
                     formControlName="gender"></app-prime-dropdown>
-                <app-prime-datepicker [maxDate]="today" class="col-12 col-md-6" label="Date Of Birth" placeholder="Date Of Birth"
+                <app-prime-datepicker [maxDate]="today()" class="col-12 col-md-6" label="Date Of Birth" placeholder="Date Of Birth"
                     formControlName="dob"></app-prime-datepicker>
                 <app-prime-input-number class="col-12 col-md-6" label="Passport Number" placeholder="Passport Number" [isDisabled]=false
                     formControlName="passport" type="number"></app-prime-input-number>
                 <app-prime-filter-dropdown class="col-12 col-md-6" label="Nationality" placeHolder="Select Nationality" [optionItems]="countries"
                     optionLabel="name" optionValue="name" formControlName="nationality"></app-prime-filter-dropdown>
-                <app-prime-datepicker class="col-12 col-md-6" [minDate]="minDate()" [customErrors]="customErrors['expiry']" label="Passport Expiry Date" placeholder="Expiry Date"
+                <app-prime-datepicker class="col-12 col-md-6" [minDate]="minDate()" [customErrors]="customErrors()['expiry']" label="Passport Expiry Date" placeholder="Expiry Date"
                     formControlName="expiry"></app-prime-datepicker>
             </div>
             <app-prime-select-button class="row mt-4" [allowEmpty]="false" formControlName="agree"

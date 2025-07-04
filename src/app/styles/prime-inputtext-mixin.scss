@@ -5,10 +5,10 @@
         width: $width-full;
         // height: $height-input;
         // min-height: 2rem;
-        font-size: $fontSize-input;
+        font-size: $fontSize-input !important;
         color: $color-inputtext !important;
         border: $input-border !important;
-        padding-block: 0.3rem !important;
+        // padding-block: 0.3rem !important;
     }
 }
 

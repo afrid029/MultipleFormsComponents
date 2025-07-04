@@ -1,18 +1,16 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable, Signal, signal } from '@angular/core';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GetDataService {
-  private Creddata: any[] = [
+  private Creddata = signal<any[]>([
     {
       Id: 1,
       awardeddate: '01-06-2025',
       certification: 'wqeqweqweqweqwe',
       city: 'daddasdsa',
-      country:'Australia',
+      country: 'Australia',
       expirydate: '26-06-2025',
       institution: 'eqeqwqwqwee',
     },
@@ -39,15 +37,15 @@ export class GetDataService {
       awardeddate: '01-07-2021',
       certification: 'Master',
       city: 'Colombo',
-      country:'Australia',
+      country: 'Australia',
       expirydate: '26-06-2020',
       institution: 'Neslo',
     },
-  ];
+  ]);
 
-  private  Degdata: any[] = [
+  private Degdata = signal<any[]>([
     {
-      Id : 1,
+      Id: 1,
       awardeddate: '26-06-2025',
       completion: 'no',
       country: 'Australia',
@@ -60,25 +58,25 @@ export class GetDataService {
       title: 'CSC',
     },
     {
-      Id : 2,
+      Id: 2,
       awardeddate: '26-05-2025',
       completion: 'yes',
-      country:'Canada' ,
-      degreetype:'Diploma',
+      country: 'Canada',
+      degreetype: 'Diploma',
       enddate: '24-04-2025',
       institution: 'wqeqwe',
       name: 'Karuna',
       startdate: '22-01-2023',
-      studymode:'Online',
+      studymode: 'Online',
       title: 'CSC',
     },
-  ];
+  ]);
 
-  private  Empdata: any[] = [
+  private Empdata = signal<any[]>([
     {
-      Id : 1,
+      Id: 1,
       contactcurrent: 'no',
-      country: 'Austria' ,
+      country: 'Austria',
       email: 'wqw12q@gmail.com',
       employmenttype: 'Part Time',
       iscurrent: 'yes',
@@ -90,7 +88,7 @@ export class GetDataService {
       supervisor: 'sasdasdasd',
     },
     {
-      Id : 2,
+      Id: 2,
       contactcurrent: 'no',
       country: 'Austria',
       email: 'asse3q@gmail.com',
@@ -104,7 +102,7 @@ export class GetDataService {
       supervisor: 'sasdasdasd',
     },
     {
-      Id : 3,
+      Id: 3,
       contactcurrent: 'no',
       country: 'Austria',
       email: 'r4weerq@gmail.com',
@@ -114,39 +112,39 @@ export class GetDataService {
       phone: 5684845164,
       position: 'sdasdas',
       startdate: '12-12-2012',
-      enddate : '01-05-2017',
+      enddate: '01-05-2017',
       supervisor: 'sasdasdasd',
     },
-  ];
+  ]);
 
-  private  Passdata : any[] = [
+  private Passdata = signal<any[]>([
     {
-      Id : 1,
-      agree: "yes",
-      dob: "08-02-1950",
-      expiry: "03-06-2025",
-      gender : 'Female',
-      lastname : "asdasdasd",
-      middlename: "dsasdasd",
-      name: "ssdasd",
-      nationality:'Austria',
-      passport: 2232332323
+      Id: 1,
+      agree: 'yes',
+      dob: '08-02-1950',
+      expiry: '03-06-2025',
+      gender: 'Female',
+      lastname: 'asdasdasd',
+      middlename: 'dsasdasd',
+      name: 'ssdasd',
+      nationality: 'Austria',
+      passport: 2232332323,
     },
-     {
-      Id: 2,
-      agree: "yes",
-      dob: "",
-      expiry: "01-01-2016",
-      gender : 'Female',
-      name: "Kumari",
-      nationality: 'Canada',
-      passport: 8579641
-    }
-  ]
-
-  private  GoodStanddata: any[] = [
     {
-      Id : 1,
+      Id: 2,
+      agree: 'yes',
+      dob: '',
+      expiry: '01-01-2016',
+      gender: 'Female',
+      name: 'Kumari',
+      nationality: 'Canada',
+      passport: 8579641,
+    },
+  ]);
+
+  private GoodStanddata = signal<any[]>([
+    {
+      Id: 1,
       awardeddate: '11-05-2025',
       certification: 'weqwee',
       city: 'Toronto',
@@ -156,7 +154,7 @@ export class GetDataService {
       institute: 'wdwwqe',
     },
     {
-      Id : 2,
+      Id: 2,
       awardeddate: '11-05-2023',
       certification: 'Chacas',
       city: 'Toronto3',
@@ -165,7 +163,7 @@ export class GetDataService {
       expirydate: '11-05-2021',
       institute: 'Unica',
     },
-  ];
+  ]);
 
   private countries = signal<Record<string, string>[]>([
     { name: 'Australia' },
@@ -218,7 +216,7 @@ export class GetDataService {
     { name: 'Canada' },
   ]);
 
-   private studyMode = signal<Record<string, string>[]>([
+  private studyMode = signal<Record<string, string>[]>([
     { type: 'Online' },
     { type: 'Distance learning' },
     { type: 'In-Person/classroom learning' },
@@ -230,7 +228,7 @@ export class GetDataService {
     { type: 'Open Learning' },
   ]);
 
-   private degreeType = signal<Record<string, string>[]>([
+  private degreeType = signal<Record<string, string>[]>([
     { type: 'Associate Degree' },
     { type: 'Bachelor' },
     { type: 'Certificate' },
@@ -267,8 +265,6 @@ export class GetDataService {
     { type: 'Female' },
   ]);
 
-
-
   getCountries(): Record<string, string>[] {
     return this.countries();
   }
@@ -291,21 +287,20 @@ export class GetDataService {
   getSlider(): Record<string, string>[] {
     return this.sliderOptions();
   }
-  
 
-  getCredData() {
-    return this.Creddata;
+  getCredData(): any[] {
+    return this.Creddata();
   }
-  getDegData() {
-    return this.Degdata;
+  getDegData(): any[] {
+    return this.Degdata();
   }
-  getEmpDate() {
-    return this.Empdata;
+  getEmpDate(): any[] {
+    return this.Empdata();
   }
-  getPassData() {
-    return this.Passdata;
+  getPassData(): any[] {
+    return this.Passdata();
   }
-  getGoodStandData() {
-    return this.GoodStanddata;
+  getGoodStandData(): any[] {
+    return this.GoodStanddata();
   }
 }

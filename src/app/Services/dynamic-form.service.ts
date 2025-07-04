@@ -1,4 +1,4 @@
-import { inject, Injectable, signal, Signal, Type } from '@angular/core';
+import { inject, Injectable, Signal, Type } from '@angular/core';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 
 @Injectable({

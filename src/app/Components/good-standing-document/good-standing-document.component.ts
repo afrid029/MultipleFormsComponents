@@ -1,37 +1,25 @@
 import { CommonModule } from '@angular/common';
 import {
-  AfterViewInit,
   Component,
-  EventEmitter,
   inject,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
   signal
 } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
-import { DialogService, DynamicDialogConfig, DynamicDialogRef, DynamicDialogStyle } from 'primeng/dynamicdialog';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { PrimeInputComponent } from '../../prime-input/prime-input.component';
 import {
   FormBuilder,
-  FormControl,
   FormGroup,
   ReactiveFormsModule,
   ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { PrimeFilterDropdownComponent } from '../../prime-filter-dropdown/prime-filter-dropdown/prime-filter-dropdown.component';
-import { PrimeDropdownComponent } from '../../prime-dropdown/prime-dropdown.component';
 import { PrimeDatepickerComponent } from '../../prime-datepicker/prime-datepicker/prime-datepicker.component';
-import { PrimeSelectButtonComponent } from '../../prime-select-button/prime-select-button.component';
-import { PrimeInputNumberComponent } from '../../prime-input-number/prime-input-number.component';
 import { ButtonComponent } from '../../prime-button/button/button.component';
 import { GetDataService } from '../../Services/get-data.service';
 import { DataLoaderComponent } from '../../data-loader/data-loader.component';
-import { MessageService } from 'primeng/api';
-import { Toast, ToastModule } from 'primeng/toast';
 import { ToastService } from '../../Services/toast.service';
 import { LengthRestriction } from '../../Validators/LengthRestriction.validator';
 import { PatternMatch } from '../../Validators/PatternMatch.validator';
@@ -56,23 +44,20 @@ import { FormControlDateComparer } from '../../Validators/FormControlDateCompare
   styleUrl: './good-standing-document.component.scss'
 })
 export class GoodStandingDocumentComponent {
-dynamicForm: FormGroup | undefined;
+  dynamicForm: FormGroup | undefined;
   disable = signal<boolean>(false);
   loading = signal<boolean>(false);
   dataLoaded = signal<boolean>(true);
-  dob : Date = new Date(2012,4,24);
-  today : Date = new Date();
 
-  customErrors : Record<string,string[]> = {};
-  customValidators: ValidatorFn[] = [];
+  dob = signal<Date>(new Date(2012,4,24));
+  today = signal<Date>(new Date());
+  customErrors = signal<Record<string,string[]>>({});
+  customValidators =signal<ValidatorFn[]>([]);
   employmentType = signal<Record<string, string>[]> ([]);
-
   countries = signal<Record<string, string>[]> ([]);
-
   stateOptions = signal<Record<string, string>[]> ([]);
   minDate = signal<Date | undefined> (undefined);
-
-  editData: any = {};
+  editData = signal<any>({});
 
    private _fb: FormBuilder = inject(FormBuilder);
     private _dataServ: GetDataService = inject(GetDataService);
@@ -87,9 +72,9 @@ dynamicForm: FormGroup | undefined;
     this.stateOptions.set(this._dataServ.getYesOrNo());
 
     this.minDate.set (new Date(
-      this.today.getFullYear() - 10,
-      this.today.getMonth(),
-      this.today.getDate()
+      this.today().getFullYear() - 10,
+      this.today().getMonth(),
+      this.today().getDate()
     ));
 
     this.dynamicForm = this._fb.group({
@@ -103,71 +88,59 @@ dynamicForm: FormGroup | undefined;
         LengthRestriction(4,'gte','Invalid minimum character count'),
         LengthRestriction(100,'lte','City should not exceed 100 characters')]],
       awardeddate : ['', [Validators.required, 
-        // GreaterThanDob(this.dob), 
-        DateComparer(this.dob,'gte','Awarded date cannot be less than date of birth'),
-        DateComparer(this.today,'lte','Awarded date cannot be greater than today'),
-        // LessThanToday
+        DateComparer(this.dob(),'gte','Awarded date cannot be less than date of birth'),
+        DateComparer(this.today(),'lte','Awarded date cannot be greater than today'),
       ]],
-      expirydate :['',[ DateComparer(this.dob,'gt','Expiry Date should be greater than date of birth')]],
+      expirydate :['',[ DateComparer(this.dob(),'gt','Expiry Date should be greater than date of birth')]],
       docnum  : [null, [Validators.required, 
         LengthRestriction(4,'gte','Invalid minimum character count'),
         LengthRestriction(50,'lte','Exceeded maximum character limit')]]
 
     });
-    // this.dynamicForm.get('expiry')?.setValidators([passportExpiry('dob')]);
-    this.customValidators = [
+    this.customValidators.set([
       FormControlDateComparer('expirydate','awardeddate','gte','Expiry date should be greater than awarded date'),
       FormControlDateComparer('awardeddate','expirydate','lte','Awarded date should be less than expiry date'),
       FormControlDateComparer('awardeddate','expirydate','neq','Awarded date and expiry date should not be in the same date'),
-    ]
+    ]);
 
-    this.dynamicForm.setValidators(this.customValidators);
+    this.dynamicForm.setValidators(this.customValidators());
     this.loadCustomValidators();
-  
   }
 
   loadCustomValidators() {
-    this.customErrors['expirydate'] = ['FormControlDateComparerGte','FormControlDateComparerNeq'];
-    this.customErrors['awardeddate'] = ['FormControlDateComparerLte','FormControlDateComparerNeq'];
+    this.customErrors()['expirydate'] = ['FormControlDateComparerGte','FormControlDateComparerNeq'];
+    this.customErrors()['awardeddate'] = ['FormControlDateComparerLte','FormControlDateComparerNeq'];
    
   }
 
    filterCustomValidators(indexes: number[]): ValidatorFn[] {
-    return this.customValidators.filter(
+    return this.customValidators().filter(
       (item, index) => !indexes.includes(index)
     );
   }
 
   ngAfterViewInit(): void {
-    // console.log(this.editData);
-    this.editData = this._config.data;
-    if (this.editData && this.editData.Id) {
+    this.editData.set(this._config.data);
+    if (this.editData() && this.editData().Id) {
       this.dataLoaded.set(false);
-    
       setTimeout(() => {
-         this.dynamicForm?.patchValue(this.editData);
-      // this.dynamicForm?.get('dob')?.updateValueAndValidity(); 
-      this.loadCustomValidators();
-      this.dynamicForm?.markAllAsTouched();
-      this.dynamicForm?.updateValueAndValidity();
-      this.dataLoaded.set(true);
+         this.dynamicForm?.patchValue(this.editData());
+        this.loadCustomValidators();
+        this.dynamicForm?.markAllAsTouched();
+        this.dynamicForm?.updateValueAndValidity();
+        this.dataLoaded.set(true);
       }, 3000)
-     
-     
- 
     }
   }
   ngOnDestroy(): void {
-    this.editData = {};
+    this.editData.set({});
   }
 
   onSubmit() {
     this.loading.set(true);
     this.dynamicForm?.markAllAsTouched();
     if(this.dynamicForm?.invalid){
-    
       this._toastServ.showToastError("Invalid", "There are validation issues in your submission. Please review the form and try again.")
-
       this.loading.set(false);
     }else {
      this._ref.close(this.dynamicForm?.value);
