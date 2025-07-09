@@ -1,43 +1,42 @@
+<app-data-loader [dataLoaded]="dataLoaded()"></app-data-loader>
 
-    <app-data-loader [dataLoaded]="dataLoaded()"></app-data-loader>
+@if(dataLoaded()) {
 
-    @if(dataLoaded()) {
+<form class="container position-relative pb-4" [formGroup]="dynamicForm!" (ngSubmit)="onSubmit()">
 
-    <form class="container position-relative pb-4" [formGroup]="dynamicForm!" (ngSubmit)="onSubmit()">
-
-        <div class="row row-cols-2 row-gap-3">
-            <app-prime-input class="col-12 col-md-6" label="Employer Name" placeholder="Employer Name"
-                [isDisabled]=false formControlName="name"></app-prime-input>
-            <app-prime-input class="col-12 col-md-6" label="Position" placeholder="Position" [isDisabled]=false
-                formControlName="position"></app-prime-input>
-            <app-prime-filter-dropdown class="col-12 col-md-6" label="Country" placeHolder="Select Country"
-                [optionItems]="countries" optionLabel="name" optionValue="name" formControlName="country"></app-prime-filter-dropdown>
-            <app-prime-dropdown class="col-12 col-md-6" label="Employment Type" placeHolder="Select a Type"
-                [optionItems]="employmentType()" optionLabel="type" optionValue="type"
-                formControlName="employmenttype"></app-prime-dropdown>
-            <app-prime-datepicker class="col-12 col-md-6" label="Start Date" placeholder="Start Date"
-                formControlName="startdate" [customErrors]="customErrors()['startdate']"></app-prime-datepicker>
-            <app-prime-datepicker class="col-12 col-md-6" label="End Date" placeholder="End Date"
-                formControlName="enddate" [customErrors]="customErrors()['enddate']"></app-prime-datepicker>
-            <app-prime-input class="col-12 col-md-6" label="Supervisor Name" placeholder="Supervisor Name"
-                [isDisabled]=false formControlName="supervisor"></app-prime-input>
-            <app-prime-input class="col-12 col-md-6" label="Supervisor Email" placeholder="Supervisor Email"
-                [isDisabled]=false formControlName="email"></app-prime-input>
-            <app-prime-input-number class="col-12 col-md-6" label="Supervisor Phone" placeholder="(999) 999-999999999"
-                [isDisabled]=false formControlName="phone"></app-prime-input-number>
-            <app-prime-select-button class="col-12 col-md-6 select-button" [allowEmpty]="false" formControlName="iscurrent"
-                label="Is this your current employer ?" size="small" [stateOptions]="slideOptions()" 
-                [allowEmpty]=false></app-prime-select-button>
-            @if(dynamicForm?.get('iscurrent')?.value == 'yes'){
-                <app-prime-dropdown class="col-12 col-md-6" label="Contact Current Employer" placeHolder="Choose an Option"
-                    [optionItems]="stateOptions()" optionLabel="label" optionValue="value"
-                    formControlName="contactcurrent"></app-prime-dropdown>
-            }
-        </div>
-        <div class="row mt-4">
-            <app-button class="col-12" [disabled]="disable()" [loading]="loading()" label="Confirm" iconPos="left"
-                type="submit" severity="warn" size="small" [fullWidth]=true></app-button>
-        </div>
-    </form>
-    }
-
+    <div class="row row-cols-2 row-gap-4">
+        <app-prime-input class="col-12 col-md-6" label="Employer Name" placeholder="Employer Name" [isDisabled]=false
+            formControlName="name"></app-prime-input>
+        <app-prime-input class="col-12 col-md-6" label="Position" placeholder="Position" [isDisabled]=false
+            formControlName="position"></app-prime-input>
+        <app-prime-filter-dropdown class="col-12 col-md-6" label="Country" placeHolder="Select Country"
+            [optionItems]="countries" optionLabel="name" optionValue="name"
+            formControlName="country"></app-prime-filter-dropdown>
+        <app-prime-dropdown class="col-12 col-md-6" label="Employment Type" placeHolder="Select a Type"
+            [optionItems]="employmentType()" optionLabel="type" optionValue="type"
+            formControlName="employmenttype"></app-prime-dropdown>
+        <app-prime-datepicker class="col-12 col-md-6" label="Start Date" placeholder="Start Date" (currentController)="setCurrent($event)"
+            formControlName="startdate" [customErrors]="customErrors()['startdate']"></app-prime-datepicker>
+        <app-prime-datepicker class="col-12 col-md-6" label="End Date" placeholder="End Date" formControlName="enddate" (currentController)="setCurrent($event)"
+            [customErrors]="customErrors()['enddate']"></app-prime-datepicker>
+        <app-prime-input class="col-12 col-md-6" label="Supervisor Name" placeholder="Supervisor Name"
+            [isDisabled]=false formControlName="supervisor"></app-prime-input>
+        <app-prime-input class="col-12 col-md-6" label="Supervisor Email" placeholder="Supervisor Email"
+            [isDisabled]=false formControlName="email"></app-prime-input>
+        <app-prime-input-number class="col-12 col-md-6" label="Supervisor Phone" placeholder="(999) 999-999999999"
+            [isDisabled]=false formControlName="phone"></app-prime-input-number>
+        <app-prime-select-button class="col-12 col-md-6 select-button" [allowEmpty]="false" formControlName="iscurrent"
+            label="Is this your current employer ?" size="small" [stateOptions]="slideOptions()"
+            [allowEmpty]=false></app-prime-select-button>
+        @if(dynamicForm?.get('iscurrent')?.value == 'yes'){
+        <app-prime-dropdown class="col-12 col-md-6" label="Contact Current Employer" placeHolder="Choose an Option"
+            [optionItems]="stateOptions()" optionLabel="label" optionValue="value"
+            formControlName="contactcurrent"></app-prime-dropdown>
+        }
+    </div>
+    <div class="row mt-4">
+        <app-button class="col-12" [disabled]="disable()" [loading]="loading()" label="Confirm" iconPos="left"
+            type="submit" severity="warn" size="small" [fullWidth]=true></app-button>
+    </div>
+</form>
+}

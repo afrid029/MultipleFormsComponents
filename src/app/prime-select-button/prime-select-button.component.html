@@ -1,20 +1,22 @@
-<div style="display: flex; flex-direction: column;"  *ngIf="control">
+<div style="display: flex; flex-direction: column;" *ngIf="control">
     <span class="flex gap-1" *ngIf="showLabel">
-        <label [dir]="direction" class="block text-sm/6 font-medium text-gray-900 mb-1 fw-medium fs-6" [htmlFor]="label">{{ label }}
-        <span class="text-right" [style]="{ color: 'red' }" *ngIf="isCurrentControlRequiredOnDefault()"> *</span></label>
+        <label [dir]="direction" class="block text-sm/6 font-medium mb-1 fw-medium fs-6"
+            [htmlFor]="label">{{ label }}
+            <span class="text-right" [style]="{ color: 'red' }" *ngIf="isCurrentControlRequiredOnDefault()">
+                *</span></label>
     </span>
 
-   
-    <p-selectbutton  [formControl]="control" [options]="stateOptions" [allowEmpty]="allowEmpty" optionLabel="label" optionValue="value" />
+
+    <p-selectbutton [formControl]="control" [options]="stateOptions" [allowEmpty]="allowEmpty" optionLabel="label"
+        optionValue="value" />
 
     <!-- <small id="sm-text-{{ label }}" *ngIf="hasSmallText">{{ smallText }}</small> -->
 
     @if(isError()) {
 
-        <ng-container>
-            <app-prime-error [direction]="direction" [crossErrorMessages]="crossErrorMessages" [errors]="control.errors"> </app-prime-error>
-        </ng-container>
+    <ng-container>
+        <app-prime-error [direction]="direction" [crossErrorMessages]="crossErrorMessages" [errors]="control.errors">
+        </app-prime-error>
+    </ng-container>
     }
 </div>
-
-

@@ -1,7 +1,11 @@
 import { Component, forwardRef, Input } from '@angular/core';
 import { CustomControlValueAccessorDirective } from '../directives/custom-control-value-accessor.directive';
 
-import { NG_VALUE_ACCESSOR, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  NG_VALUE_ACCESSOR,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
 import { CommonModule } from '@angular/common';
 import { PrimeErrorComponent } from '../prime-error/prime-error.component';
@@ -12,7 +16,12 @@ import { DataLoaderComponent } from '../data-loader/data-loader.component';
   selector: 'app-prime-dropdown',
   templateUrl: './prime-dropdown.component.html',
   styleUrl: './prime-dropdown.component.scss',
-  imports : [SelectModule, CommonModule, ReactiveFormsModule, PrimeErrorComponent],
+  imports: [
+    SelectModule,
+    CommonModule,
+    ReactiveFormsModule,
+    PrimeErrorComponent,
+  ],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -21,10 +30,12 @@ import { DataLoaderComponent } from '../data-loader/data-loader.component';
     },
   ],
 })
-export class PrimeDropdownComponent<T> extends CustomControlValueAccessorDirective<T> {
+export class PrimeDropdownComponent<
+  T
+> extends CustomControlValueAccessorDirective<T> {
   @Input() label: string = '';
-  @Input() direction: 'ltr'|'rtl' = 'ltr';
-   @Input() customErrors: string[] = [];
+  @Input() direction: 'ltr' | 'rtl' = 'ltr';
+  @Input() customErrors: string[] = [];
 
   @Input() isRecommendedValue: string = '';
 
@@ -45,24 +56,22 @@ export class PrimeDropdownComponent<T> extends CustomControlValueAccessorDirecti
 
   crossErrorMessages: Record<string, string> = {};
 
-   isError(): boolean {    
-   const keys = Object.keys(this.control?.parent?.errors ?? {});
-   this.crossErrorMessages = {};
-   this.customErrors?.forEach(cust =>{
-    const x = keys.includes(cust)
-    if(x){
-    
-      this.crossErrorMessages[cust] = this.control?.parent?.errors?.[cust];
-    }
-    
-   })
-  
-    
+  isError(): boolean {
+    const keys = Object.keys(this.control?.parent?.errors ?? {});
+    this.crossErrorMessages = {};
+    this.customErrors?.forEach((cust) => {
+      const x = keys.includes(cust);
+      if (x) {
+        this.crossErrorMessages[cust] = this.control?.parent?.errors?.[cust];
+      }
+    });
+
     if (!this.control) return false;
 
-      return ( Object.keys(this.crossErrorMessages).length > 0 ||
+    return (
+      Object.keys(this.crossErrorMessages).length > 0 ||
       (this.control.invalid &&
-      (this.control.dirty || this.control.touched || this.submitted) )
+        (this.control.dirty || this.control.touched || this.submitted))
     );
   }
 

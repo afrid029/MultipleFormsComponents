@@ -11,6 +11,8 @@ export class DynamicFormService {
     return this._dialogService.open(component, {
       closable: true,
       header: header,
+      modal : true,
+      appendTo : "body"
     });
   }
 
@@ -18,6 +20,7 @@ export class DynamicFormService {
     return this._dialogService.open(component, {
       closable: true,
       header: header,
+      modal : true,
       data : data()
     });
   }

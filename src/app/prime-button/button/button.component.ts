@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Input, Output, forwardRef } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  forwardRef,
+} from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CustomControlValueAccessorDirective } from '../../directives/custom-control-value-accessor.directive';
 import { ButtonModule } from 'primeng/button';
@@ -7,7 +13,7 @@ import { ButtonModule } from 'primeng/button';
   selector: 'app-button',
   templateUrl: './button.component.html',
   styleUrl: './button.component.scss',
-  imports:[ButtonModule],
+  imports: [ButtonModule],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -24,7 +30,13 @@ export class ButtonComponent<T> extends CustomControlValueAccessorDirective<T> {
   @Input() styleClass?: string;
   @Input() disabled: boolean = false;
   @Input() loading: boolean = false;
-  @Input() severity: 'secondary' | 'success' | 'info' | 'warn' | 'help' | 'danger' = 'success';
+  @Input() severity:
+    | 'secondary'
+    | 'success'
+    | 'info'
+    | 'warn'
+    | 'help'
+    | 'danger' = 'success';
   @Input() size?: 'small' | 'large' | null = null;
   @Input() rounded: boolean = false;
   @Input() outlined: boolean = false;

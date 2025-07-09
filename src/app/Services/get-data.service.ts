@@ -11,7 +11,6 @@ export class GetDataService {
       certification: 'wqeqweqweqweqwe',
       city: 'daddasdsa',
       country: 'Australia',
-      expirydate: '26-06-2025',
       institution: 'eqeqwqwqwee',
     },
     {
@@ -46,11 +45,9 @@ export class GetDataService {
   private Degdata = signal<any[]>([
     {
       Id: 1,
-      awardeddate: '26-06-2025',
       completion: 'no',
       country: 'Australia',
       degreetype: 'PHD',
-      enddate: '24-06-2025',
       institution: 'wqeqwe',
       name: 'Lucky',
       startdate: '22-06-2000',

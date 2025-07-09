@@ -1,6 +1,6 @@
 <div style="display: flex; flex-direction: column;" *ngIf="control">
     <span [class]="label && label !== '' ? 'flex gap-1' : 'flex gap-1 justify-content-end'">
-        <label dir="auto" class="block text-sm/6 font-medium text-gray-900 mb-1" [htmlFor]="label">{{ label }}</label>
+        <label dir="auto" class="block text-sm/6 font-medium mb-1" [htmlFor]="label">{{ label }}</label>
         @if(isCurrentControlRequiredOnDefault() && showRequiredIcon){
 
         <span class="text-right" [style]="{ color: 'red' }"
@@ -19,9 +19,9 @@
 
     @if(isError()) {
 
-        <ng-container>
-            <app-prime-error [direction]="direction" [crossErrorMessages]="crossErrorMessages" [errors]="control.errors">
-            </app-prime-error>
-        </ng-container>
+    <ng-container>
+        <app-prime-error [direction]="direction" [crossErrorMessages]="crossErrorMessages" [errors]="control.errors">
+        </app-prime-error>
+    </ng-container>
     }
 </div>

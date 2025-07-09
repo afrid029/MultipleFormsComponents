@@ -23,12 +23,13 @@ import { PrimeFilterDropdownComponent } from '../../prime-filter-dropdown/prime-
 import { PrimeDatepickerComponent } from '../../prime-datepicker/prime-datepicker/prime-datepicker.component';
 import { ButtonComponent } from '../../prime-button/button/button.component';
 import { GetDataService } from '../../Services/get-data.service';
-import { DataLoaderComponent } from '../../data-loader/data-loader.component';;
+import { DataLoaderComponent } from '../../data-loader/data-loader.component';
 import { ToastService } from '../../Services/toast.service';
 import { LengthRestriction } from '../../Validators/LengthRestriction.validator';
 import { PatternMatch } from '../../Validators/PatternMatch.validator';
 import { DateComparer } from '../../Validators/DateComparer.validator';
 import { FormControlDateComparer } from '../../Validators/FormControlDateComparer.validator';
+import { DateFormatter } from '../../Validators/DateFormatter.formatter';
 
 @Component({
   selector: 'app-credential-document',
@@ -41,12 +42,14 @@ import { FormControlDateComparer } from '../../Validators/FormControlDateCompare
     PrimeFilterDropdownComponent,
     PrimeDatepickerComponent,
     ButtonComponent,
-    DataLoaderComponent
+    DataLoaderComponent,
   ],
   templateUrl: './credential-document.component.html',
-  styleUrl: './credential-document.component.scss'
+  styleUrl: './credential-document.component.scss',
 })
-export class CredentialDocumentComponent implements OnInit, AfterViewInit, OnDestroy {
+export class CredentialDocumentComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
   dynamicForm: FormGroup | undefined;
   disable = signal<boolean>(false);
   loading = signal<boolean>(false);
@@ -54,63 +57,82 @@ export class CredentialDocumentComponent implements OnInit, AfterViewInit, OnDes
   customValidators = signal<ValidatorFn[]>([]);
   today = signal<Date>(new Date());
   dob = signal<Date>(new Date(2012, 4, 24));
-  minDate = signal<Date | undefined>(undefined)
+  minDate = signal<Date | undefined>(undefined);
   editData = signal<any>({});
   customErrors = signal<Record<string, string[]>>({});
   countries = signal<Record<string, string>[]>([]);
 
-  private _fb : FormBuilder = inject(FormBuilder);
-  private _dataServ : GetDataService = inject(GetDataService);
-  private _toastServ : ToastService = inject(ToastService);
-  private _config : DynamicDialogConfig = inject(DynamicDialogConfig);
-  private _ref : DynamicDialogRef = inject(DynamicDialogRef);
+  private _fb: FormBuilder = inject(FormBuilder);
+  private _dataServ: GetDataService = inject(GetDataService);
+  private _toastServ: ToastService = inject(ToastService);
+  private _config: DynamicDialogConfig = inject(DynamicDialogConfig);
+  private _ref: DynamicDialogRef = inject(DynamicDialogRef);
+
+  private instituteValidators = signal<ValidatorFn[]> ([
+     Validators.required,
+      LengthRestriction(100, 'lte', 'Exceeded maximum character limit')
+  ])
+  private certificationValidators = signal<ValidatorFn[]>([
+     Validators.required,
+      LengthRestriction(100, 'lte', 'Exceeded maximum character limit'),
+  ])
+  private cityValidators = signal<ValidatorFn[]>([
+     Validators.required,
+     PatternMatch(/^[A-Za-z ]+$/,'City only allow alphabets and spaces and no special characters.'),
+     LengthRestriction(4, 'gte', 'Invalid minimum character count'), 
+     LengthRestriction(100, 'lte', 'Exceeded maximum character limit'),
+  ])
+
+  private awardeddateValidators = signal<ValidatorFn[]>([
+     Validators.required,
+      DateComparer(this.dob(),'gte','Awarded date cannot be less than date of birth'),
+      DateComparer(this.today(),'lte','Awarded Date cannot be greater than today'),
+      FormControlDateComparer('awardeddate','expirydate','lte','Awarded date should be less than expiry date'),
+      FormControlDateComparer('awardeddate','expirydate','neq','Awarded date and expiry date should not be in the same date'),
+  ])
+  private expirydateValidations = signal<ValidatorFn[]>([
+    DateComparer(this.dob(),'gt','Expiry Date should be greater than date of birth'),
+    FormControlDateComparer('expirydate','awardeddate','gte','Expiry date should be greater than awarded date'),
+    FormControlDateComparer('expirydate','awardeddate','neq','Expiry date and awarded date should not be in the same date'),
+  ])
 
   ngOnInit(): void {
     this.countries.set(this._dataServ.getCountries());
     this.minDate.set(
-      new Date(this.today().getFullYear() - 10, this.today().getMonth(), this.today().getDate())
+      new Date(
+        this.today().getFullYear() - 10,
+        this.today().getMonth(),
+        this.today().getDate()
+      )
     );
-    this.dynamicForm = this._fb.group(
-      {
-        institution: new FormControl('', [Validators.required, 
-          LengthRestriction(100,'lte','Exceeded maximum character limit')
-        ]),
-        certification: new FormControl('', [
-          Validators.required,
-          LengthRestriction(100,'lte','Exceeded maximum character limit')
-        ]),
-        country: new FormControl('', [Validators.required]),
-        city: new FormControl('', [Validators.required,
-          PatternMatch('City only allow alphabets and spaces and no special characters.'),
-          LengthRestriction(4, 'gte' ,'Invalid minimum character count'),
-          LengthRestriction(100,'lte','Exceeded maximum character limit'),
-          
-          ]),
-        awardeddate: new FormControl('', [
-          Validators.required,
-          DateComparer(this.dob(),'gte','Awarded date cannot be less than date of birth'),
-          DateComparer(this.today(),'lte','Awarded Date cannot be greater than today'),
-        ]),
-        expirydate: new FormControl('', [ DateComparer(this.dob(),'gt','Expiry Date should be greater than date of birth')]),
-      }
-   
-    );
-     this.customValidators.set([
-      FormControlDateComparer('expirydate','awardeddate','gte','Expiry date should be greater than awarded date'),
-      FormControlDateComparer('awardeddate','expirydate','lte','Awarded date should be less than expiry date'),
-      FormControlDateComparer('awardeddate','expirydate','neq','Awarded date and expiry date should not be in the same date'),]
-     )
-     this.dynamicForm?.setValidators(this.customValidators());
+    this.dynamicForm = this._fb.group({
+      institution: new FormControl('', this.instituteValidators()),
+      certification: new FormControl('', this.certificationValidators()),
+      country: new FormControl('', [Validators.required]),
+      city: new FormControl('', this.cityValidators()),
+      awardeddate: new FormControl('', this.awardeddateValidators()),
+      expirydate: new FormControl('', this.expirydateValidations()),
+    });
 
-    this.loadCustomValidators();
+    this.loadCustomValidators()
 
   }
 
   loadCustomValidators() {
-    this.customErrors()['expirydate'] = ['FormControlDateComparerGte','FormControlDateComparerNeq'];
-    this.customErrors()['awardeddate'] = ['FormControlDateComparerLte','FormControlDateComparerNeq'];
+   if(this.dynamicForm) {
+     this.dynamicForm.valueChanges.subscribe((data) => {
+      if(data.expirydate && data.awardeddate){
+        const expirydate = DateFormatter(data.expirydate)
+        const awardeddate = DateFormatter(data.awardeddate)
+        if(awardeddate < expirydate) {
+          this.dynamicForm?.controls['expirydate'].updateValueAndValidity({emitEvent : false});
+          this.dynamicForm?.controls['awardeddate'].updateValueAndValidity({emitEvent : false});
+        }
+      }
+    })
+   }
   }
-   filterCustomValidators(indexes: number[]): ValidatorFn[] {
+  filterCustomValidators(indexes: number[]): ValidatorFn[] {
     return this.customValidators().filter(
       (item, index) => !indexes.includes(index)
     );
@@ -127,7 +149,7 @@ export class CredentialDocumentComponent implements OnInit, AfterViewInit, OnDes
         this.dynamicForm?.markAllAsTouched();
         this.dynamicForm?.updateValueAndValidity();
         this.dataLoaded.set(true);
-      }, 3000);
+      },1000);
     }
   }
   ngOnDestroy(): void {
@@ -138,7 +160,7 @@ export class CredentialDocumentComponent implements OnInit, AfterViewInit, OnDes
     this.loading.set(true);
     this.dynamicForm?.markAllAsTouched();
     console.log(this.dynamicForm);
-    
+
     if (this.dynamicForm?.invalid) {
       this._toastServ.showToastError(
         'Invalid',
@@ -148,8 +170,10 @@ export class CredentialDocumentComponent implements OnInit, AfterViewInit, OnDes
       this.loading.set(false);
     } else {
       this._ref.close(this.dynamicForm?.value);
-      this._toastServ.showToastSuccess('Success', 'Document Submitted Successfuly !')
+      this._toastServ.showToastSuccess(
+        'Success',
+        'Document Submitted Successfuly !'
+      );
     }
   }
-
 }

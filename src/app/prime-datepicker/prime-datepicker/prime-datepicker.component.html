@@ -1,6 +1,6 @@
 <div style="display: flex; flex-direction: column;" *ngIf="control">
     <span class="flex gap-1">
-        <label [dir]="direction" class="block text-sm/6 font-medium text-gray-900 mb-1" [htmlFor]="label">{{ label }}
+        <label [dir]="direction" class="block text-sm/6 font-medium mb-1" [htmlFor]="label">{{ label }}
             @if(isCurrentControlRequiredOnDefault()){
             <span class="text-right" [style]="{ color: 'red' }"> *</span>
             }
@@ -8,7 +8,7 @@
     </span>
 
 
-    <p-date-picker [ngClass]="{ 'ng-invalid ng-dirty': isError() }" [formControl]="control" [dir]="direction"
+    <p-date-picker [ngClass]="{ 'ng-invalid ng-dirty': isError() }" [formControl]="control" (onFocus)="Focusing()" [dir]="direction"
         [id]="label" [dateFormat]="dateFormat" [showIcon]="showIcon" [readonlyInput]="isEditable" [minDate]="minDate"
         [maxDate]="maxDate" [disabledDates]="disabledDates"
         [class]="isError() ? 'p-inputtext-sm required' : 'p-inputtext-sm'" appendTo="body" [style]="{ width: '100%' }"

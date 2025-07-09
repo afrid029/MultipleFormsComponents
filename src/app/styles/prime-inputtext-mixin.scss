@@ -8,6 +8,7 @@
         font-size: $fontSize-input !important;
         color: $color-inputtext !important;
         border: $input-border !important;
+        padding: 0.6rem 0.6rem !important;
         // padding-block: 0.3rem !important;
     }
 }
@@ -28,7 +29,8 @@
 
 @mixin p-input-disabled {
     .p-inputtext:disabled {
-        background-color: $color-bg-onDisabled !important
+        // background-color: $color-bg-onDisabled !important
+        color: rgba(128, 128, 128, 0.598) !important;
     }
 }
 

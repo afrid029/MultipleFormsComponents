@@ -1,28 +1,14 @@
 import { CommonModule } from '@angular/common';
-import {
-  AfterViewInit,
-  Component,
-  inject,
-  OnDestroy,
-  OnInit,
-  signal,
-} from '@angular/core';
+import { AfterViewInit,Component,inject,OnDestroy,OnInit,signal} from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { PrimeInputComponent } from '../../prime-input/prime-input.component';
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
+import {FormBuilder,FormGroup,ReactiveFormsModule,ValidatorFn,Validators} from '@angular/forms';
 import { PrimeFilterDropdownComponent } from '../../prime-filter-dropdown/prime-filter-dropdown/prime-filter-dropdown.component';
 import { PrimeDropdownComponent } from '../../prime-dropdown/prime-dropdown.component';
 import { PrimeDatepickerComponent } from '../../prime-datepicker/prime-datepicker/prime-datepicker.component';
 import { PrimeSelectButtonComponent } from '../../prime-select-button/prime-select-button.component';
-import { PrimeInputNumberComponent } from '../../prime-input-number/prime-input-number.component';
 import { ButtonComponent } from '../../prime-button/button/button.component';
 import { GetDataService } from '../../Services/get-data.service';
 import { DataLoaderComponent } from '../../data-loader/data-loader.component';
@@ -31,6 +17,8 @@ import { ToastService } from '../../Services/toast.service';
 import { FormControlDateComparer } from '../../Validators/FormControlDateComparer.validator';
 import { DateDifference } from '../../Validators/DateDifference.validator';
 import { LengthRestriction } from '../../Validators/LengthRestriction.validator';
+import { PatternMatch } from '../../Validators/PatternMatch.validator';
+import { DateFormatter } from '../../Validators/DateFormatter.formatter';
 
 @Component({
   selector: 'app-passport-document',
@@ -44,7 +32,6 @@ import { LengthRestriction } from '../../Validators/LengthRestriction.validator'
     PrimeDropdownComponent,
     PrimeDatepickerComponent,
     PrimeSelectButtonComponent,
-    PrimeInputNumberComponent,
     ButtonComponent,
     DataLoaderComponent,
     ToastModule,
@@ -73,6 +60,25 @@ dynamicForm: FormGroup | undefined;
   private _config : DynamicDialogConfig = inject(DynamicDialogConfig);
   private _ref : DynamicDialogRef = inject(DynamicDialogRef);
 
+  private dobValidators = signal<ValidatorFn[]>([
+     Validators.required,
+      DateDifference(this.today(),10,'year','gte','Candidate should be atleast 10 years old'),
+      DateDifference(this.today(),100,'year','lte','Candidate age should not be greater than 100'),
+      FormControlDateComparer('dob', 'expiry', 'lte','Date of birth should not be greater than passport expiry date'),
+      
+  ])
+
+  private passportValidators = signal<ValidatorFn[]>([
+     Validators.required,
+      PatternMatch(/^[A-Za-z0-9]+$/, 'Passport number only allow alphabets and numbers'), 
+      LengthRestriction(2, 'gte', 'Passport number should have atleast two charectors')
+  ])
+
+  private expiryValidators = signal<ValidatorFn[]>([
+    Validators.required,
+    FormControlDateComparer('expiry', 'dob', 'gte','Passport expiry date should not be less than Date Of birth'),
+  ])
+
   ngOnInit(): void {
   this.gender.set(this._dataServ.getGender());
   this.countries.set(this._dataServ.getCountries());
@@ -88,30 +94,31 @@ dynamicForm: FormGroup | undefined;
         lastname: ['', [Validators.required]],
         middlename: [''],
         gender: ['', [Validators.required]],
-        dob: ['', [
-          Validators.required,
-          DateDifference(this.today(),10,'year','gte','Candidate should be atleast 10 years old'),
-          DateDifference(this.today(),100,'year','lte','Candidate age should not be greater than 100'),
-        ]],
-        passport: [null, [
-          Validators.required,
-          LengthRestriction(2, 'gte', 'Passport number should have atleast two digits')
-        ]],
+        dob: ['', this.dobValidators()],
+        passport: [null, this.passportValidators()],
         nationality: ['', [Validators.required]],
-        expiry: ['', [Validators.required]],
+        expiry: ['', this.expiryValidators()],
         agree: ['no', [Validators.required]]
       });
 
-    this.customValidators.set([
-      FormControlDateComparer('expiry', 'dob', 'gte','Passport expiry date should not be less than Date Of birth'),
-    ]);
-
-    this.dynamicForm.setValidators(this.customValidators());
+ 
     this.loadCustomValidators();
   }
 
   loadCustomValidators() {
-    this.customErrors()['expiry'] = ['FormControlDateComparerGte'];
+    if(this.dynamicForm) {
+        this.dynamicForm?.valueChanges.subscribe((data) => {
+          if(data.dob && data.expiry) {
+            const dob = DateFormatter(data.dob);
+            const expiry = DateFormatter(data.expiry);
+            if(dob < expiry) {
+              this.dynamicForm?.controls['dob'].updateValueAndValidity({emitEvent: false});
+              this.dynamicForm?.controls['expiry'].updateValueAndValidity({emitEvent : false});
+            }
+          }
+    })
+    }
+  
   }
 
    filterCustomValidators(indexes: number[]): ValidatorFn[] {
@@ -152,3 +159,5 @@ dynamicForm: FormGroup | undefined;
     }
   }
 }
+
+

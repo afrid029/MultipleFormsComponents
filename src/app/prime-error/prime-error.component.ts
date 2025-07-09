@@ -19,15 +19,30 @@ export class PrimeErrorComponent implements OnInit, OnChanges {
   @Input() errors: Record<string, ValidationErrors> | null = {};
   @Input() crossErrorMessages: Record<string, string> | any = {};
   @Input() direction: 'ltr' | 'rtl' = 'ltr';
+  // @Input() currentCtr : string = '';
+  // @Input() formControlName : string = '';
 
   errorMessages = signal<Record<string, string>>({});
   customErrorMessages = signal<Record<string, string> | any>({});
   controllerError = signal<string | any>('');
-  crossError : string = '';
+  crossError: string = '';
 
   ngOnInit(): void {
     this.setErrorMessages();
   }
+
+  // canShowError() {
+  //   console.log(this.formControlName);
+  //   console.log(this.currentCtr);
+    
+    
+
+  //   if(this.formControlName && this.currentCtr) {
+
+  //     return (this.currentCtr == this.formControlName) || (this.crossError.length > 0 || this.controllerError().length > 0);
+  //   }
+  //   return false;
+  // }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (
@@ -39,7 +54,6 @@ export class PrimeErrorComponent implements OnInit, OnChanges {
     }
   }
 
- 
   hasCrossErrors(): boolean {
     if (Object.keys(this.crossErrorMessages).length > 0) {
       this.crossError = Object.values(this.crossErrorMessages)[0] as string;

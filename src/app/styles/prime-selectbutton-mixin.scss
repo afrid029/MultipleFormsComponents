@@ -11,10 +11,15 @@
     .p-togglebutton.p-togglebutton-checked {
         background-color: $color-primary !important;
     }
+       .p-togglebutton-label {
+        color: gray;
+    }
 
-    .p-togglebutton.p-togglebutton-checked .p-togglebutton-content {
+    .p-togglebutton.p-togglebutton-checked .p-togglebutton-label {
         color: $color-white !important;
     }
+
+ 
 
     .p-togglebutton-content {
         background-color: transparent !important;
