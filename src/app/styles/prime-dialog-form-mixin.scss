@@ -2,7 +2,7 @@
 @mixin dialogForm {
     *{
         // font-family: "Inter var", sans-serif
-        font-family:  "Poppins", sans-serif;
+        font-family:  "Inter", sans-serif;
     }
      .p-dialog-mask {
         background: $color-mask-dialog;
@@ -13,13 +13,14 @@
 
     .p-dialog{
         background-color: $color-white !important;
-        width:65%;
+        width:62%;
         // width: auto;
         display: flex;
         justify-content: center;
         max-height: 90% !important;
         border: transparent !important;
         box-shadow: $dialog-shadow !important;
+        border-radius: 6px !important;
     }
 
     .p-dialog-header {
